@@ -10,7 +10,7 @@ import Footer from '../components/footer';
 const App = ({Component, pageProps}) => {
     const [userEmail, setUserEmail] = useState(null);
     useEffect( async() => {
-        const use = await axios.get('http://localhost:5000/api/users/currentuser', {withCredentials: true});
+        const use = await axios.get('https://auth-announce.herokuapp.com/api/users/currentuser', {withCredentials: true});
         if(use.data.currentUser){
             setUserEmail(use.data.currentUser.email);
         }
