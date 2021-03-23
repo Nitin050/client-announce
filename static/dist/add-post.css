@@ -1,0 +1,18 @@
+.wrapperClassName{
+  border: 1px solid rgb(192, 190, 190);
+}
+
+.toolbarClassName{
+  border-bottom: 2px solid rgb(233, 232, 232) !important;
+}
+
+.editorClassName{
+  /* border-top: 2px solid rgb(233, 232, 232); */
+  padding: 0 0.5em;
+  min-height: 250px;
+  line-height: 55%;
+}
+
+.public-DraftStyleDefault-block{
+  margin-top: 0.5em !important;
+}
