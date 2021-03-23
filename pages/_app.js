@@ -12,7 +12,7 @@ const App = ({Component, pageProps}) => {
     useEffect( async() => {
         const use = await axios.get('https://auth-announce.herokuapp.com/api/users/currentuser', {withCredentials: true});
         if(use.data.currentUser){
-            setUserEmail(use.data);
+            setUserEmail(use+'k');
         }
         // console.log(use.data.currentUser.email);
     });
