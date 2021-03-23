@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "build:css": "postcss styles/index.css -o static/dist/tailwind.css"
+    "build:css": "postcss styles/index.css -o static/dist/tailwind.css",
+    "pub": "git add . && git status && git commit -m \"Updates\" &&  git push"
   },
   "keywords": [],
   "author": "",
