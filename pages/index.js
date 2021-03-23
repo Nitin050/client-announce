@@ -17,7 +17,7 @@ const LandingPage = ({userEmail}) => {
     return (
       <>
         <form onSubmit={onSubmit}>
-            <h1>Make an update {userEmail}</h1>
+            <h1>Make an update {JSON.stringify(userEmail)}</h1>
             <div className="form-group">
                 <label>Title</label>
                 <input 
