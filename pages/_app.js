@@ -11,9 +11,9 @@ const App = ({Component, pageProps}) => {
     const [userEmail, setUserEmail] = useState(null);
     useEffect( async() => {
         const use = await axios.get('https://auth-announce.herokuapp.com/api/users/currentuser', {withCredentials: true});
-        if(use.data.currentUser){
+        // if(use.data.currentUser){
             setUserEmail(use+'k');
-        }
+        // }
         // console.log(use.data.currentUser.email);
     });
 
