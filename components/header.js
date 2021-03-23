@@ -32,7 +32,7 @@ const Header = ({userEmail}) => {
         </span>
       </a>
     </Link>
-    <span className="text-white">{user}
+    <span className="text-white">{user}nm
       {userEmail ?
         <>Hi <span className="font-bold">{userEmail.split("@")[0]}</span></>
         :
