@@ -1,15 +1,14 @@
 import {useState} from 'react';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
+import {authURL} from '../static/dist/static'
 
 export default () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const {doRequest, errors} = useRequest({
-      url: 'https://auth-announce.herokuapp.com/api/users/signup',
-      // url: 'http://localhost:5000/api/users/signup',
-      
+      url: `${authURL}/api/users/signup`,
       method: 'post',
       body: {
         email, password

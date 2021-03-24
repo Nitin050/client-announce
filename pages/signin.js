@@ -1,13 +1,15 @@
 import {useState} from 'react';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
+import {authURL} from '../static/dist/static'
+
 
 export default () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const {doRequest, errors} = useRequest({
-      url: 'http://localhost:5000/api/users/signin',
+      url: `${authURL}/api/users/signin`,
       method: 'post',
       body: {
         email, password
