@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const Header = ({userEmail}) => {
   const [active, setActive] = useState(false);
-  const [user, setUser] = useState(null);
 
   const handleClick = () => {
     setActive(!active);
@@ -32,7 +31,7 @@ const Header = ({userEmail}) => {
         </span>
       </a>
     </Link>
-    <span className="text-white">{user}nm
+    <span className="text-white">
       {userEmail ?
         <>Hi <span className="font-bold">{userEmail.split("@")[0]}</span></>
         :
