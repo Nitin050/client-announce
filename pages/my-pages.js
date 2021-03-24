@@ -3,6 +3,7 @@ import Router from 'next/router';
 // import axios from 'axios';
 import Link from "next/link";
 import useRequest from '../hooks/use-request';
+import {appURL} from '../static/dist/static';
 
 const YourPages = ({userEmail}) => {
     const [pages, setPages] = useState(['']);

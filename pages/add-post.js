@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 import useRequest from '../hooks/use-request';
 import Router from 'next/router';
 import axios from 'axios';
-import {appURL} from '../../../static/dist/static';
+import {appURL} from '../static/dist/static';
 
 
 const AddPost = ({userEmail}) => {

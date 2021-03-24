@@ -3,7 +3,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
 import TagsInput from '../components/TagsInput';
-import {appURL} from '../../../static/dist/static';
+import {appURL} from '../static/dist/static';
 
 
 const CreateAnn_page = ({userEmail}) => {

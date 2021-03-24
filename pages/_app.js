@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 // import useRequest from '../hooks/use-request';
 import axios from 'axios';
 import Footer from '../components/footer';
-import {authURL} from '../../../static/dist/static';
+import {authURL} from '../static/dist/static';
 
 
 const App = ({Component, pageProps}) => {
