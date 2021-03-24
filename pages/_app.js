@@ -15,7 +15,7 @@ const App = ({Component, pageProps}) => {
         const use = await axios.get(`${authURL}/api/users/currentuser`, {withCredentials: true});
         if(use.data.currentUser){
             setUserEmail(use.data.currentUser.email);
-            console.log(JSON.stringify(use))
+            // console.log(JSON.stringify(use))
         }
         // console.log(use.data.currentUser.email);
     });
