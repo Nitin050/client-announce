@@ -4,7 +4,7 @@ import Link from "next/link";
 import useRequest from '../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
-import {appURL} from '../../../static/dist/static';
+import {appURL} from '../../static/dist/static';
 
 
 const Page = ({userEmail}) => {
