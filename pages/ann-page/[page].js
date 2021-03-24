@@ -4,6 +4,7 @@ import Link from "next/link";
 import useRequest from '../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
+import {appURL} from '../../../static/dist/static';
 
 
 const Page = ({userEmail}) => {
@@ -21,7 +22,7 @@ const Page = ({userEmail}) => {
     };
 
     const {doRequest, errors} = useRequest({
-      url: 'http://localhost:4000/ann_pages/' + router.query.page,
+      url: `${appURL}/ann_pages/` + router.query.page,
       method: 'post',
       onSuccess: async(data) => {
         console.log(data);
@@ -31,7 +32,7 @@ const Page = ({userEmail}) => {
 
     const loadNotes = async(start, end) => {
         // for(; i<10; i++){
-        var notesData = await axios.post(`http://localhost:4000/notes/${start}/${end}`, {url: slug}, {withCredentials: true});
+        var notesData = await axios.post(`${appURL}/notes/${start}/${end}`, {url: slug}, {withCredentials: true});
         // console.log(JSON.stringify(notesData))
         // setNotes(notesData.data);
         setNotes(prevNotes => {
@@ -54,7 +55,7 @@ const Page = ({userEmail}) => {
       i++;
       setj(i);
       await loadNotes(i*10+1, i*10+10);
-      // var notesData = await axios.post(`http://localhost:4000/notes/${i*10+1}/${i*10+10}`, {url: slug}, {withCredentials: true});
+      // var notesData = await axios.post(`${appURL}/notes/${i*10+1}/${i*10+10}`, {url: slug}, {withCredentials: true});
       //   console.log(JSON.stringify(notesData.data))
       //   setNotes(prevNotes => {
       //     return [...prevNotes, ...notesData.data]

@@ -6,15 +6,17 @@ import { useState, useEffect } from 'react';
 // import useRequest from '../hooks/use-request';
 import axios from 'axios';
 import Footer from '../components/footer';
+import {authURL} from '../../../static/dist/static';
+
 
 const App = ({Component, pageProps}) => {
     const [userEmail, setUserEmail] = useState(null);
     useEffect( async() => {
-        const use = await axios.get('https://auth-announce.herokuapp.com/api/users/currentuser', {withCredentials: true});
-        // if(use.data.currentUser){
+        const use = await axios.get(`${authURL}/api/users/currentuser`, {withCredentials: true});
+        if(use.data.currentUser){
             setUserEmail(use.data.currentUser.email);
             console.log(JSON.stringify(use))
-        // }
+        }
         // console.log(use.data.currentUser.email);
     });
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import useRequest from '../../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
-
+import {appURL} from '../../../static/dist/static';
 
 const Page = ({userEmail}) => {
 
@@ -21,7 +21,7 @@ const Page = ({userEmail}) => {
     };
 
     const {doRequest, errors} = useRequest({
-      url: 'http://localhost:4000/ann_pages/' + router.query.drafts,
+      url: `${appURL}/ann_pages/` + router.query.drafts,
       method: 'post',
       onSuccess: async(data) => {
         console.log(data);
@@ -31,7 +31,7 @@ const Page = ({userEmail}) => {
 
     const loadNotes = async(start, end) => {
         // for(; i<10; i++){
-        var notesData = await axios.post(`http://localhost:4000/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
+        var notesData = await axios.post(`${appURL}/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
         // console.log(JSON.stringify(notesData))
         // setNotes(notesData.data);
         setNotes(prevNotes => {

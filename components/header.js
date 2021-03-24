@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const Header = ({userEmail}) => {
   const [active, setActive] = useState(false);
@@ -8,12 +7,6 @@ const Header = ({userEmail}) => {
   const handleClick = () => {
     setActive(!active);
   };
-
-  // useEffect( async() => {
-  //   const use = await axios.get('http://localhost:5000/api/users/currentuser', {withCredentials: true});
-  //   setUser(use.data.currentUser.email);
-  // }, []);
-
 
   return(
     <nav className='flex items-center flex-wrap bg-blue-500 px-3 '>

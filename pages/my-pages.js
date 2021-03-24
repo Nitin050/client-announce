@@ -12,7 +12,7 @@ const YourPages = ({userEmail}) => {
     };
 
     const {doRequest, errors} = useRequest({
-        url: 'http://localhost:4000/ann_pages/findAll',
+        url: `${appURL}/ann_pages/findAll`,
         method: 'post',
         onSuccess: async(data) => {
             // console.log(data);
