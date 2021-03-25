@@ -36,6 +36,9 @@ const CreateAnn_page = ({userEmail}) => {
         ann_pageId = data._id;
         console.log(data);
         console.log(data._id);
+        if(visibility === 'public'){
+          Router.push('/my-pages')
+        }
       }
     });
 
@@ -54,13 +57,13 @@ const CreateAnn_page = ({userEmail}) => {
               },
               withCredentials: true
             });
-
+            
+            Router.push('/my-pages')
             // console.log(JSON.stringify(response));
           } catch(err){
             console.log(err)
           }
         }
-        Router.push('/my-pages')
       };
 
     // useEffect( async() => {

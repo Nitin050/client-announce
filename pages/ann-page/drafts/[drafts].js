@@ -9,7 +9,7 @@ import {appURL} from '../../../static/dist/static';
 const Page = ({userEmail}) => {
 
     const [annPage, setAnnPage] = useState([{}]);
-    const [notes, setNotes] = useState([]);
+    const [drafts, setDrafts] = useState([]);
     const [j, setj] = useState(0);
     const router = useRouter()
     const [slug, setSlug] = useState(router.query.drafts);
@@ -29,13 +29,13 @@ const Page = ({userEmail}) => {
       }
     });
 
-    const loadNotes = async(start, end) => {
+    const loadDrafts = async(start, end) => {
         // for(; i<10; i++){
-        var notesData = await axios.post(`${appURL}/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
+        var draftsData = await axios.post(`${appURL}/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
         // console.log(JSON.stringify(notesData))
         // setNotes(notesData.data);
-        setNotes(prevNotes => {
-              return [...prevNotes, ...notesData.data]
+        setDrafts(prevDrafts => {
+              return [...prevDrafts, ...draftsData.data]
             });
       // }
     }
@@ -43,7 +43,7 @@ const Page = ({userEmail}) => {
     useEffect( async() => {
       setSlug(router.query.drafts);
       await doRequest();
-      await loadNotes(1,10);
+      await loadDrafts(1,10);
     }, []);
     
     const convertCommentFromJSONToHTML = (text) => {                     
@@ -53,7 +53,7 @@ const Page = ({userEmail}) => {
     const LoadMore = async () => {
       i++;
       setj(i);
-      await loadNotes(i*10+1, i*10+10);
+      await loadDrafts(i*10+1, i*10+10);
       // var notesData = await axios.post(`http://localhost:4000/notes/${i*10+1}/${i*10+10}`, {url: slug}, {withCredentials: true});
       //   console.log(JSON.stringify(notesData.data))
       //   setNotes(prevNotes => {
@@ -106,29 +106,38 @@ const Page = ({userEmail}) => {
                       </div>
                     </div>
 
-                    {notes.map(note => (
+                    {drafts.map(draft => (
                     <div className="mt-6">
                       <div className="max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
                         <div className="flex justify-between items-center">
                           <span className="font-light text-gray-600">
-                            {new Date(note.createdAt).toDateString()} 
+                            {new Date(draft.createdAt).toDateString()} 
                           </span>
-                          <a href="#" className="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500">Edit</a>
+                          <Link 
+                            href={{
+                              pathname: "/ann-page/drafts/edit",
+                              query: {id: draft._id},
+                            }}
+                          >
+                            <a className="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500">
+                              Edit
+                            </a>
+                          </Link>
                         </div>
                         <div className="mt-2">
                             <a href="#" className="text-2xl text-gray-700 font-bold hover:underline">
-                              {note.title}
+                              {draft.title}
                             </a>
                           <p className="mt-2 text-gray-600">
                             <div 
-                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(note.content)}}> 
+                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(draft.content)}}> 
                             </div>
                           </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
                           <a href="#" className="text-blue-500 hover:underline">Read more</a>
                           <div><a href="#" className="flex items-center">
-                              <h1 className="text-gray-700 font-bold hover:underline">{note.userEmail}</h1>
+                              <h1 className="text-gray-700 font-bold hover:underline">{draft.userEmail}</h1>
                             </a></div>
                         </div>
                       </div>

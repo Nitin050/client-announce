@@ -2,13 +2,12 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 
 export default ({ url, method, body, onSuccess }) => {
+  axios.defaults.withCredentials = true;
   const [errors, setErrors] = useState(null);
   const doRequest = async() => {
     try{
       setErrors(null);
-      const response = await axios[method](url, body, {headers: {
-        Cookie: "d"
-      },withCredentials: true, crossDomain: true});
+      const response = await axios[method](url, body, {crossDomain: true});
       if(onSuccess){
         onSuccess(response.data);
       }

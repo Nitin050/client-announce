@@ -17,7 +17,7 @@ const App = ({Component, pageProps}) => {
             setUserEmail(use.data.currentUser.email);
             // console.log(JSON.stringify(use))
         }
-        // console.log(use.data.currentUser.email);
+        // console.log(use.data);
     });
 
     
