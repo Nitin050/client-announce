@@ -8,7 +8,7 @@ import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 // import {stateToHTML} from 'draft-js-export-html'; 
 import {useRouter} from "next/router";
-import useRequest from '../hooks/use-request';
+import useRequest from '../../../hooks/use-request';
 import Router from 'next/router';
 import axios from 'axios';
 import {appURL} from '../static/dist/static';
