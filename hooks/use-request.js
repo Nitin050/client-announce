@@ -4,10 +4,11 @@ import axios from 'axios';
 export default ({ url, method, body, onSuccess }) => {
   axios.defaults.withCredentials = true;
   const [errors, setErrors] = useState(null);
+  
   const doRequest = async() => {
     try{
       setErrors(null);
-      const response = await axios[method](url, body, {crossDomain: true});
+      const response = await axios[method](url, body, {headers: {Authorization: `Bearer ${cookie_value}`}, crossDomain: true});
       if(onSuccess){
         onSuccess(response.data);
       }
