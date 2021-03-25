@@ -84,7 +84,7 @@ const CreateAnn_page = ({userEmail}) => {
                   <h2 className="leading-relaxed">Create an Announcement Page</h2>
                   <p className="text-sm text-gray-500 font-normal leading-relaxed">and start making announcements</p>
                 </div>
-              </div>{document.cookie}
+              </div>
               <div className="divide-y divide-gray-200">
               <form 
                 onSubmit={onSubmit} 
