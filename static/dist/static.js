@@ -1,4 +1,5 @@
-export const annURL= "https://auth-announce.herokuapp.com";
+// deployment
+// export const annURL= "https://auth-announce.herokuapp.com";
 
 // development
-// export const annURL= "http://localhost:5000";
+export const annURL= "http://localhost:5000";

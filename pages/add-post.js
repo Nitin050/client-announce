@@ -31,9 +31,9 @@ const AddPost = ({userEmail}) => {
       content: JSON.stringify(convertToRaw(data.getCurrentContent())), title 
     },
     onSuccess: async(data) => {
-      console.log(data);
-      setLoading(false);
+      // console.log(data);
       Router.push('/ann-page/'+router.query.url)
+      setLoading(false);
     }
   });
 
@@ -64,9 +64,9 @@ const AddPost = ({userEmail}) => {
           content: JSON.stringify(convertToRaw(data.getCurrentContent())), 
           title 
         }, {withCredentials: true});
-      console.log(draft);
-      setLoadingDraft(false);
+      // console.log(draft);
       Router.push('/ann-page/drafts/'+router.query.url)
+      setLoadingDraft(false);
     } catch(err){
       setErrors2(JSON.stringify(err));
       console.log(err)
@@ -126,6 +126,7 @@ const AddPost = ({userEmail}) => {
                   
                   <button 
                     className="p-3 mr-2 border-2 border-gray-600 bg-gray-300 hover:bg-gray-500 w-32" 
+                    disabled={loading}
                     onClick={saveDraft}
                   >
                     {loading_draft ? 
@@ -136,7 +137,8 @@ const AddPost = ({userEmail}) => {
                   </button>
 
                   <button 
-                    role="submit" 
+                    role="submit"
+                    disabled={loading}
                     className="p-3 bg-blue-500 text-white hover:bg-blue-400 w-20" 
                   >
                     {loading ? 

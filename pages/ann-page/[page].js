@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Link from "next/link";
 import useRequest from '../../hooks/use-request';
-import {useRouter} from "next/router";
+import {Router, useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
 import {annURL} from '../../static/dist/static';
 import Subscribers from '../../components/subscribers';
@@ -26,7 +26,7 @@ const Page = ({userEmail}) => {
       url: `${annURL}/ann_pages/` + router.query.page,
       method: 'post',
       onSuccess: async(data) => {
-        console.log(data);
+        // console.log(data);
         setAnnPage(data[0]);
       }
     });
@@ -63,6 +63,24 @@ const Page = ({userEmail}) => {
       //   });
     }
 
+    const Subscribe = async () => {
+      var response = await axios.post(
+        `${annURL}/ann_pages/subscribe/${annPage._id}`, 
+        {emails: [`${userEmail}`]}, 
+        {withCredentials: true}
+      );
+      // console.log(JSON.stringify(response.data))
+      Router.reload();
+    }
+
+    const ReadMore = async (id) => {
+      if (document.getElementById(id).style.maxHeight === 'none'){
+        document.getElementById(id).style.maxHeight = '7rem'
+      }
+      else {
+        document.getElementById(id).style.maxHeight = 'none'
+      }
+    }
 
     return (
       
@@ -89,10 +107,41 @@ const Page = ({userEmail}) => {
                           }}
                         >
                           <button 
-                            className="ml-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-bold py-1 px-4 rounded-full" 
+                            className="ml-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-bold py-1 px-4 rounded-md" 
                             type="submit"
                           >
                             Add Post
+                          </button>
+                        </Link>
+                      }
+                      
+                      <span className=" text-sm text-gray-500 mx-2">
+                        {annPage.subscribers && annPage.subscribers.length} subscriber
+                        {annPage.subscribers && annPage.subscribers.length>1 && 's'}
+                      </span>
+
+                      {(userEmail && annPage.subscribers) &&
+                      (!(annPage.subscribers.includes(userEmail)) ?
+                          <button 
+                            className="mx-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-bold py-1 px-4 rounded-md" 
+                            type="submit"
+                            onClick={Subscribe}
+                          >
+                            Subscribe
+                          </button>
+                        :
+                        <div className="text-sm text-blue-500 mr-3 mt-2" >Subscribed</div>
+                      ) 
+                      }
+                      {!userEmail &&
+                        <Link 
+                          href='/signin'
+                        >
+                          <button 
+                            className="mx-3 text-lg bg-blue-400 hover:bg-blue-500 text-white font-bold py-1 px-4 rounded-md" 
+                            type="submit"
+                          >
+                            Subscribe
                           </button>
                         </Link>
                       }
@@ -134,15 +183,20 @@ const Page = ({userEmail}) => {
                             </a>
                           <p className="mt-2 text-gray-600">
                             <div 
-                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(JSON.parse(note.content))}}> 
+                              id={note._id}
+                              className="max-h-28 overflow-y-hidden transition-all"
+                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(JSON.parse(note.content))}}
+                            > 
                             </div>
                           </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                          <a href="#" className="text-blue-500 hover:underline">Read more</a>
-                          <div><a href="#" className="flex items-center">
+                          <a onClick={() => ReadMore(note._id)} className="text-blue-500 cursor-pointer hover:underline">Read more</a>
+                          <div>
+                            <a className="flex items-center">
                               <h1 className="text-gray-700 font-bold hover:underline">{note.userEmail}</h1>
-                            </a></div>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>

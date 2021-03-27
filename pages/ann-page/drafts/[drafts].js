@@ -62,6 +62,14 @@ const DraftPage = ({userEmail}) => {
       //   });
     }
 
+    const ReadMore = async (id) => {
+      if (document.getElementById(id).style.maxHeight === 'none'){
+        document.getElementById(id).style.maxHeight = '7rem'
+      }
+      else {
+        document.getElementById(id).style.maxHeight = 'none'
+      }
+    }
 
     return (
       
@@ -74,7 +82,7 @@ const DraftPage = ({userEmail}) => {
                   <div className="w-full lg:w-8/12">
                     <div className="flex items-center justify-between">
                       <h1 className="text-xl ml-2 font-bold text-gray-700 md:text-2xl">
-                        {annPage.title}
+                        <span className="text-gray-500 font-normal">Drafts -</span>  {annPage.title}
                         <span className="ml-3">
                           {annPage.visibility==='private' && 
                             <i className="fa fa-lock"></i>
@@ -135,13 +143,16 @@ const DraftPage = ({userEmail}) => {
                             </a>
                           <p className="mt-2 text-gray-600">
                             <div 
+                              id={draft._id}
+                              className="max-h-28 overflow-y-hidden transition-all"
                               dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(JSON.parse(draft.content))}}> 
                             </div>
                           </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                          <a href="#" className="text-blue-500 hover:underline">Read more</a>
-                          <div><a href="#" className="flex items-center">
+                          <a onClick={() => ReadMore(draft._id)} className="text-blue-500 cursor-pointer hover:underline">Read more</a>
+                          <div>
+                            <a href="#" className="flex items-center">
                               <h1 className="text-gray-700 font-bold hover:underline">{draft.userEmail}</h1>
                             </a></div>
                         </div>

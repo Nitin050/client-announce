@@ -1,5 +1,9 @@
+import Router from 'next/router';
 import Link from "next/link";
 import { useState, useEffect } from 'react';
+import useRequest from '../hooks/use-request';
+import {annURL} from '../static/dist/static';
+
 
 const Header = ({userEmail}) => {
   const [active, setActive] = useState(false);
@@ -7,6 +11,21 @@ const Header = ({userEmail}) => {
   const handleClick = () => {
     setActive(!active);
   };
+
+  
+  const {doRequest, errors} = useRequest({
+    url: `${annURL}/api/users/signout`,
+    method: 'post',
+    onSuccess: () => {
+      Router.reload('/')
+      Router.push('/')
+    }
+  });
+
+  const logout  = async() => {
+    await doRequest();
+    console.log(errors)
+  }
 
   return(
     <nav className='flex items-center flex-wrap bg-blue-500 px-3 '>
@@ -77,11 +96,13 @@ const Header = ({userEmail}) => {
             My Pages
           </a>
         </Link>
-        <Link href='/'>
-          <a className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-600 hover:text-white'>
-            Contact us
-          </a>
-        </Link>
+        {userEmail &&
+          <Link href="/">
+            <a onClick={logout} className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-blue-600 hover:text-white'>
+              Logout
+            </a>
+          </Link>
+        }
       </div>
     </div>
   </nav>

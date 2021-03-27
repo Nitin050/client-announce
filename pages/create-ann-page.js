@@ -14,6 +14,7 @@ const CreateAnn_page = ({userEmail}) => {
     var ann_pageId = '';
     const selectedTags = tags => {
       setEmails(tags);
+      console.log(emails)
     }
 
     
@@ -34,8 +35,8 @@ const CreateAnn_page = ({userEmail}) => {
       },
       onSuccess: async(data) => {
         ann_pageId = data._id;
-        console.log(data);
-        console.log(data._id);
+        // console.log(data);
+        // console.log(data._id);
         if(visibility === 'public'){
           Router.push('/my-pages')
         }
