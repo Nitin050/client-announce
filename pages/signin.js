@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
-import {authURL} from '../static/dist/static'
+import {annURL} from '../static/dist/static'
 
 
 export default () => {
@@ -9,7 +9,7 @@ export default () => {
     const [password, setPassword] = useState('');
 
     const {doRequest, errors} = useRequest({
-      url: `${authURL}/api/users/signin`,
+      url: `${annURL}/api/users/signin`,
       method: 'post',
       body: {
         email, password

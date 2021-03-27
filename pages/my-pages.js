@@ -3,7 +3,7 @@ import Router from 'next/router';
 // import axios from 'axios';
 import Link from "next/link";
 import useRequest from '../hooks/use-request';
-import {appURL} from '../static/dist/static';
+import {annURL} from '../static/dist/static';
 
 const YourPages = ({userEmail}) => {
     const [pages, setPages] = useState(['']);
@@ -13,7 +13,7 @@ const YourPages = ({userEmail}) => {
     };
 
     const {doRequest, errors} = useRequest({
-        url: `${appURL}/ann_pages/findAll`,
+        url: `${annURL}/ann_pages/findAll`,
         method: 'post',
         onSuccess: async(data) => {
             // console.log(data);
@@ -36,7 +36,12 @@ const YourPages = ({userEmail}) => {
           
           <div className="flex flex-col w-full mb-5">
             <h1 className="text-2xl font-bold mb-2 text-gray-500">
-              Your Pages{errors}
+              {!pages.length ?
+                 (<div className="mb-44">You don't have any pages</div>)
+                :
+                (<span>Your Pages</span>)
+              }
+              {errors}
             </h1>
           </div>
           

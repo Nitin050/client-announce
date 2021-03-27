@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 import useRequest from '../hooks/use-request';
 import Router from 'next/router';
 import axios from 'axios';
-import {appURL} from '../static/dist/static';
+import {annURL} from '../static/dist/static';
 
 
 const AddPost = ({userEmail}) => {
@@ -23,12 +23,12 @@ const AddPost = ({userEmail}) => {
   const [loading, setLoading] = useState(false);
   const [loading_draft, setLoadingDraft] = useState(false);
   const router = useRouter()
-
+ 
   const {doRequest , errors} = useRequest({
-    url: `${appURL}/create_note/${router.query.id}`,
+    url: `${annURL}/create_note/${router.query.id}`,
     method: 'post',
-    body: {
-      content: convertToRaw(data.getCurrentContent()), title 
+    body: { 
+      content: JSON.stringify(convertToRaw(data.getCurrentContent())), title 
     },
     onSuccess: async(data) => {
       console.log(data);
@@ -58,10 +58,15 @@ const AddPost = ({userEmail}) => {
     event.preventDefault();
     setLoadingDraft(true);
     try {
-      var draft = await axios.post(`${appURL}/create_draft/${router.query.id}`, { content: convertToRaw(data.getCurrentContent()), title }, {withCredentials: true});
+      var draft = await axios.post(
+        `${annURL}/create_draft/${router.query.id}`, 
+        { 
+          content: JSON.stringify(convertToRaw(data.getCurrentContent())), 
+          title 
+        }, {withCredentials: true});
       console.log(draft);
       setLoadingDraft(false);
-      // Router.push('/ann-page/'+router.query.url)
+      Router.push('/ann-page/drafts/'+router.query.url)
     } catch(err){
       setErrors2(JSON.stringify(err));
       console.log(err)

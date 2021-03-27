@@ -3,7 +3,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
 import TagsInput from '../components/TagsInput';
-import {appURL} from '../static/dist/static';
+import {annURL} from '../static/dist/static';
 
 
 const CreateAnn_page = ({userEmail}) => {
@@ -27,7 +27,7 @@ const CreateAnn_page = ({userEmail}) => {
     // });
 
     const {doRequest, errors} = useRequest({
-      url: `${appURL}/ann_pages`,
+      url: `${annURL}/ann_pages`,
       method: 'post',
       body: {
         title, visibility, url, email: userEmail
@@ -50,7 +50,7 @@ const CreateAnn_page = ({userEmail}) => {
           try{
             const response = await axios({
               method: 'post',
-              url: `${appURL}/ann_pages/subscribe/` + ann_pageId,
+              url: `${annURL}/ann_pages/subscribe/` + ann_pageId,
               headers: {}, 
               data: {
                 emails, // This is the body part

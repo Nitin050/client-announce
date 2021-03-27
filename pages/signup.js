@@ -1,14 +1,14 @@
 import {useState} from 'react';
 import Router from 'next/router';
 import useRequest from '../hooks/use-request'
-import {authURL} from '../static/dist/static'
+import {annURL} from '../static/dist/static'
 
 export default () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const {doRequest, errors} = useRequest({
-      url: `${authURL}/api/users/signup`,
+      url: `${annURL}/api/users/signup`,
       method: 'post',
       body: {
         email, password

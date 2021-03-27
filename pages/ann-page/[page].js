@@ -4,8 +4,8 @@ import Link from "next/link";
 import useRequest from '../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
-import {appURL} from '../../static/dist/static';
-
+import {annURL} from '../../static/dist/static';
+import Subscribers from '../../components/subscribers';
 
 const Page = ({userEmail}) => {
 
@@ -15,6 +15,7 @@ const Page = ({userEmail}) => {
     const router = useRouter()
     const [slug, setSlug] = useState(router.query.page);
     var i = 0;
+    var current_time = new Date();
 
     
     Page.getInitialProps = async () => {
@@ -22,7 +23,7 @@ const Page = ({userEmail}) => {
     };
 
     const {doRequest, errors} = useRequest({
-      url: `${appURL}/ann_pages/` + router.query.page,
+      url: `${annURL}/ann_pages/` + router.query.page,
       method: 'post',
       onSuccess: async(data) => {
         console.log(data);
@@ -32,7 +33,7 @@ const Page = ({userEmail}) => {
 
     const loadNotes = async(start, end) => {
         // for(; i<10; i++){
-        var notesData = await axios.post(`${appURL}/notes/${start}/${end}`, {url: slug}, {withCredentials: true});
+        var notesData = await axios.post(`${annURL}/notes/${start}/${end}`, {url: slug}, {withCredentials: true});
         // console.log(JSON.stringify(notesData))
         // setNotes(notesData.data);
         setNotes(prevNotes => {
@@ -101,12 +102,15 @@ const Page = ({userEmail}) => {
                           <option>Latest</option>
                           <option>Last Week</option>
                         </select> */}
-                      {annPage.userEmail===userEmail &&
+                      {(annPage.userEmail===userEmail) &&
+                      annPage.drafts.length ?
                         <Link href="/ann-page/drafts/[drafts]" as={`/ann-page/drafts/${slug}`}>
                           <a className="w-full bg-gray-300 px-3 py-2 rounded-md border-2 border-gray-500 shadow-sm focus:border-indigo-300 focus:ring ">
-                            Drafts
+                            Drafts({annPage.drafts.length})
                           </a>
                         </Link>
+                        :
+                        (<></>)
                       }
                       </div>
                     </div>
@@ -116,7 +120,11 @@ const Page = ({userEmail}) => {
                       <div className="max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
                         <div className="flex justify-between items-center">
                           <span className="font-light text-gray-600">
-                            {new Date(note.createdAt).toDateString()} 
+                            {current_time.toDateString() === new Date(note.createdAt).toDateString() ?
+                              new Date(note.createdAt).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})+', Today'
+                            :
+                              new Date(note.createdAt).toDateString()
+                            }
                           </span>
                           {/* <a href="#" className="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500">Laravel</a> */}
                         </div>
@@ -126,7 +134,7 @@ const Page = ({userEmail}) => {
                             </a>
                           <p className="mt-2 text-gray-600">
                             <div 
-                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(note.content)}}> 
+                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(JSON.parse(note.content))}}> 
                             </div>
                           </p>
                         </div>
@@ -166,24 +174,30 @@ const Page = ({userEmail}) => {
                     </div>
                   </div>
                   <div className="-mx-8 w-4/12 hidden lg:block">
-                    <div className="px-8">
+                    {/* <div className="px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Authors</h1>
                       <div className="flex flex-col bg-white max-w-sm px-6 py-4 mx-auto rounded-lg shadow-md">
                         <ul className="-mx-4">
                           <li className="flex items-center">
-                            {/* <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80" alt="avatar" className="w-10 h-10 object-cover rounded-full mx-4" /> */}
                             <p>
-                              <span className="text-gray-700 font-bold mx-1">
-                                {annPage.userEmail}
-                              </span>
-                              {/* <span className="text-gray-700 text-sm font-light">
-                                Created 23 Posts
-                              </span> */}
+                              {annPage.authors && (
+                                annPage.authors.map(author =>(
+                                  <div>
+                                    <a className="text-gray-700 font-bold mx-1">
+                                      {author}&nbsp;&nbsp;
+                                      {author === annPage.userEmail &&
+                                        <i className="fas fa-crown text-yellow-600"></i>
+                                      }
+                                    </a>
+                                  </div>
+                                ))
+                              )}
                             </p>
                           </li>
                         </ul>
                       </div>
-                    </div>
+                    </div> */}
+                    <Subscribers authors={annPage.authors} userEmail={annPage.userEmail} />
                     <div className="mt-10 px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Subscribers</h1>
                       <div className="flex flex-col bg-white px-4 py-6 max-w-sm mx-auto rounded-lg shadow-md">
@@ -192,7 +206,10 @@ const Page = ({userEmail}) => {
                             annPage.subscribers.map(subscriber =>(
                               <li>
                                 <a className="text-gray-700 font-bold mx-1">
-                                  {subscriber}
+                                  {subscriber}&nbsp;&nbsp;
+                                  {subscriber === annPage.userEmail &&
+                                    <i className="fas fa-crown text-yellow-600"></i>
+                                  }
                                 </a>
                               </li>
                             ))

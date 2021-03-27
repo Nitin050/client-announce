@@ -4,9 +4,9 @@ import Link from "next/link";
 import useRequest from '../../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
-import {appURL} from '../../../static/dist/static';
+import {annURL} from '../../../static/dist/static';
 
-const Page = ({userEmail}) => {
+const DraftPage = ({userEmail}) => {
 
     const [annPage, setAnnPage] = useState([{}]);
     const [drafts, setDrafts] = useState([]);
@@ -14,14 +14,15 @@ const Page = ({userEmail}) => {
     const router = useRouter()
     const [slug, setSlug] = useState(router.query.drafts);
     var i = 0;
+    var current_time = new Date();
 
     
-    Page.getInitialProps = async () => {
+    DraftPage.getInitialProps = async () => {
       return {};
     };
 
     const {doRequest, errors} = useRequest({
-      url: `${appURL}/ann_pages/` + router.query.drafts,
+      url: `${annURL}/ann_pages/` + router.query.drafts,
       method: 'post',
       onSuccess: async(data) => {
         console.log(data);
@@ -31,7 +32,7 @@ const Page = ({userEmail}) => {
 
     const loadDrafts = async(start, end) => {
         // for(; i<10; i++){
-        var draftsData = await axios.post(`${appURL}/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
+        var draftsData = await axios.post(`${annURL}/drafts/${start}/${end}`, {url: slug}, {withCredentials: true});
         // console.log(JSON.stringify(notesData))
         // setNotes(notesData.data);
         setDrafts(prevDrafts => {
@@ -111,7 +112,11 @@ const Page = ({userEmail}) => {
                       <div className="max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
                         <div className="flex justify-between items-center">
                           <span className="font-light text-gray-600">
-                            {new Date(draft.createdAt).toDateString()} 
+                          {current_time.toDateString() === new Date(draft.createdAt).toDateString() ?
+                              new Date(draft.createdAt).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})+', Today'
+                            :
+                              new Date(draft.createdAt).toDateString()
+                            }
                           </span>
                           <Link 
                             href={{
@@ -130,7 +135,7 @@ const Page = ({userEmail}) => {
                             </a>
                           <p className="mt-2 text-gray-600">
                             <div 
-                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(draft.content)}}> 
+                              dangerouslySetInnerHTML={{ __html: convertCommentFromJSONToHTML(JSON.parse(draft.content))}}> 
                             </div>
                           </p>
                         </div>
@@ -158,12 +163,12 @@ const Page = ({userEmail}) => {
                         <a href="#" className="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
                           3
                         </a> */}
-                        {annPage.notes && ((annPage.notes.length-j*10)>10 &&
+                        {annPage.drafts && ((annPage.drafts.length-j*10)>10 &&
                           <a 
                             onClick={LoadMore}
                             className="mx-1 px-3 py-2 bg-white text-blue-600 bg-blue-100 font-medium hover:bg-blue-500 hover:text-white rounded-md"
                           >
-                            Load more{annPage.notes && ((annPage.notes.length-j*10)>10 && `(${annPage.notes.length-10-j*10})`)}
+                            Load more{annPage.drafts && ((annPage.drafts.length-j*10)>10 && `(${annPage.drafts.length-10-j*10})`)}
                           </a>
                         )}
                       </div>
@@ -227,4 +232,4 @@ const Page = ({userEmail}) => {
 
 
 
-export default Page;
+export default DraftPage;

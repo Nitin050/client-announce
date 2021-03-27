@@ -5,35 +5,35 @@ const Editor = dynamic(
   () => import('react-draft-wysiwyg').then(mod => mod.Editor),
   {ssr: false});
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 // import {stateToHTML} from 'draft-js-export-html'; 
 import {useRouter} from "next/router";
 import useRequest from '../../../hooks/use-request';
 import Router from 'next/router';
 import axios from 'axios';
-import {appURL} from '../../../static/dist/static';
-
+import {annURL} from '../../../static/dist/static';
+import Alert from '../../../components/alert';
 
 const AddPost = ({userEmail}) => {
 
-  const [data, setData] = useState(EditorState.createEmpty());
+  const [data, setData] = useState();
 
   const [title, setTitle] = useState('');
+  const [annPageId, setAnnPageId] = useState('');
   const [errors2, setErrors2] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [loading_draft, setLoadingDraft] = useState(false);
   const router = useRouter()
 
   const {doRequest , errors} = useRequest({
-    url: `${appURL}/create_note/${router.query.id}`,
+    url: `${annURL}/drafts/${router.query.id}`,
     method: 'get',
-    body: {
-      content: convertToRaw(data.getCurrentContent()), title 
-    },
-    onSuccess: async(data) => {
-      console.log(data);
-      setLoading(false);
-      Router.push('/ann-page/'+router.query.url)
+    onSuccess: async(response) => {
+      console.log(response);
+      setAnnPageId(response.owner);
+      setTitle(response.title);
+      setData(EditorState.createWithContent(convertFromRaw(JSON.parse(response.content))));
     }
   });
 
@@ -54,20 +54,43 @@ const AddPost = ({userEmail}) => {
   const onSubmit = async event => {
     event.preventDefault();
     setLoading(true);
-    await doRequest();
+    try {
+      var post = await axios.post(
+        `${annURL}/create_note/${annPageId}`, 
+        { 
+          content: JSON.stringify(convertToRaw(data.getCurrentContent())), 
+          title 
+        }, {withCredentials: true});
+      
+      var delete_draft = await axios.delete(
+        `${annURL}/drafts/${router.query.id}`, 
+         {withCredentials: true});
+      setLoading(false);
+      Router.push('/ann-page/'+ delete_draft.data.url);
+    } catch(err){
+      setErrors2(JSON.stringify(err));
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   const saveDraft = async event => {
     event.preventDefault();
     setLoadingDraft(true);
     try {
-      var draft = await axios.post(`${appURL}/create_draft/${router.query.id}`, { content: convertToRaw(data.getCurrentContent()), title }, {withCredentials: true});
+      var draft = await axios.put(
+        `${annURL}/drafts/${router.query.id}`, 
+        { 
+          content: JSON.stringify(convertToRaw(data.getCurrentContent())), 
+          title 
+        }, {withCredentials: true});
       console.log(draft);
       setLoadingDraft(false);
-      // Router.push('/ann-page/'+router.query.url)
+      setShowAlert(true);
+      setTimeout(()=>setShowAlert(false), 1500);
     } catch(err){
       setErrors2(JSON.stringify(err));
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -77,7 +100,9 @@ const AddPost = ({userEmail}) => {
 
     
     return (
+      <>
         <div className="py-12 bg-gray-100">
+  
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-3 sm:p-6 bg-white border-b border-gray-200">
@@ -129,7 +154,7 @@ const AddPost = ({userEmail}) => {
                     {loading_draft ? 
                       <i className="fa fa-spin fa-spinner fa-lg"></i>
                     :
-                      'Save as Draft'
+                      'Save Draft'
                     }
                   </button>
 
@@ -145,12 +170,13 @@ const AddPost = ({userEmail}) => {
                   </button>
                 </div>
                   <span className="text-red-600">{errors}{errors2}</span>
+                  <Alert message='Saved Successfully' showAlert={showAlert}/>
               </form>
             </div>
           </div>
         </div>
       </div>
-   
+    </>
     )
 };
 
