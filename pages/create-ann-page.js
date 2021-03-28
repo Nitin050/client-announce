@@ -114,6 +114,7 @@ const CreateAnn_page = ({userEmail}) => {
                       className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" 
                       required
                       value={url}
+                      onKeyPress="return event.charCode != 32"
                       onChange={e => setUrl(e.target.value)}
                       placeholder="eg. my-page" 
                     />
