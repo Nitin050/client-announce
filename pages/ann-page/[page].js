@@ -46,7 +46,7 @@ const Page = ({userEmail}) => {
       setSlug(router.query.page);
       await doRequest();
       await loadNotes(1,10);
-    }, []);
+    }, [router.query.page]);
     
     const convertCommentFromJSONToHTML = (text) => {                     
       return (draftToHtml(text)) 
