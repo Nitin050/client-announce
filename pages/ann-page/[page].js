@@ -41,7 +41,6 @@ const Page = ({userEmail, page}) => {
     }
 
     useEffect( async() => {
-      console.log(router.query.page+"dddddddddddddddddddddddddddd")
       setSlug(router.query.page);
       await doRequest();
       await loadNotes(1,10);

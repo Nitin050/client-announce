@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
 import {annURL} from '../../../static/dist/static';
 
-const DraftPage = ({userEmail}) => {
+const DraftPage = ({userEmail, NoUse}) => {
 
     const [annPage, setAnnPage] = useState([{}]);
     const [drafts, setDrafts] = useState([]);
@@ -45,7 +45,7 @@ const DraftPage = ({userEmail}) => {
       setSlug(router.query.drafts);
       await doRequest();
       await loadDrafts(1,10);
-    }, []);
+    }, [router.query.drafts]);
     
     const convertCommentFromJSONToHTML = (text) => {                     
       return (draftToHtml(text)) 
@@ -241,6 +241,9 @@ const DraftPage = ({userEmail}) => {
     )
 };
 
+DraftPage.getInitialProps = async () => {
+  return {NoUse: ''};
+};
 
 
 export default DraftPage;
