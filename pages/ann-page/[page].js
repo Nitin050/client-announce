@@ -7,7 +7,7 @@ import draftToHtml from 'draftjs-to-html';
 import {annURL} from '../../static/dist/static';
 import Subscribers from '../../components/subscribers';
 
-const Page = ({userEmail}) => {
+const Page = ({userEmail, page}) => {
 
     const [annPage, setAnnPage] = useState([{}]);
     const [notes, setNotes] = useState([]);
@@ -18,12 +18,10 @@ const Page = ({userEmail}) => {
     var current_time = new Date();
 
     
-    Page.getInitialProps = async () => {
-      return {};
-    };
 
     const {doRequest, errors} = useRequest({
       url: `${annURL}/ann_pages/` + router.query.page,
+      // url: `${annURL}/ann_pages/` + router.asPath.slice(10,),
       method: 'post',
       onSuccess: async(data) => {
         // console.log(data);
@@ -43,6 +41,7 @@ const Page = ({userEmail}) => {
     }
 
     useEffect( async() => {
+      console.log(router.query.page+"dddddddddddddddddddddddddddd")
       setSlug(router.query.page);
       await doRequest();
       await loadNotes(1,10);
@@ -81,6 +80,8 @@ const Page = ({userEmail}) => {
         document.getElementById(id).style.maxHeight = 'none'
       }
     }
+
+    
 
     return (
       
@@ -292,6 +293,8 @@ const Page = ({userEmail}) => {
     )
 };
 
-
+Page.getInitialProps = async () => {
+  return {page: ''};
+};
 
 export default Page;
