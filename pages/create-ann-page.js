@@ -67,6 +67,13 @@ const CreateAnn_page = ({userEmail}) => {
         }
       };
 
+      const handleURLChange = e => {
+        if (e.currentTarget.value.includes(" ")){
+          e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "-");
+        }
+        setUrl(e.target.value);
+      }
+
     // useEffect( async() => {
     //     const notes = await axios.get('http://localhost:4000/notes', {});
     //     console.log(notes);
@@ -114,8 +121,9 @@ const CreateAnn_page = ({userEmail}) => {
                       className="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" 
                       required
                       value={url}
-                      onKeyPress="return event.charCode != 32"
-                      onChange={e => setUrl(e.target.value)}
+                      onKeyDown={e =>{ if(e.key === " "){e.preventDefault()}}}
+                      onChange={handleURLChange}
+                      // onChange={e => setUrl(e.target.value)}
                       placeholder="eg. my-page" 
                     />
                     <p className="text-sm text-gray-500 font-normal leading-relaxed">https://announce.com/my-page</p>
