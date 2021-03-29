@@ -228,30 +228,6 @@ const Page = ({userEmail, page}) => {
                     </div>
                   </div>
                   <div className="mx-auto lg:-mx-8 lg:w-4/12 w-full block">
-                  {/* <div className="-mx-8 w-4/12 hidden lg:block"> */}
-                    {/* <div className="px-8">
-                      <h1 className="mb-4 text-xl font-bold text-gray-700">Authors</h1>
-                      <div className="flex flex-col bg-white max-w-sm px-6 py-4 mx-auto rounded-lg shadow-md">
-                        <ul className="-mx-4">
-                          <li className="flex items-center">
-                            <p>
-                              {annPage.authors && (
-                                annPage.authors.map(author =>(
-                                  <div>
-                                    <a className="text-gray-700 font-bold mx-1">
-                                      {author}&nbsp;&nbsp;
-                                      {author === annPage.userEmail &&
-                                        <i className="fas fa-crown text-yellow-600"></i>
-                                      }
-                                    </a>
-                                  </div>
-                                ))
-                              )}
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    </div> */}
 
                     <Authors 
                       authors={annPage.authors} 

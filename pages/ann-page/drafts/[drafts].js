@@ -5,6 +5,7 @@ import useRequest from '../../../hooks/use-request';
 import {useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
 import {annURL} from '../../../static/dist/static';
+import Authors from '../../components/authors';
 
 const DraftPage = ({userEmail, NoUse}) => {
 
@@ -78,7 +79,7 @@ const DraftPage = ({userEmail, NoUse}) => {
               {errors ? 
                 <span className="text-red-600">{errors}</span>
               :
-                <div className="flex justify-between container mx-auto">
+                <div className="lg:flex justify-between container mx-auto">
                   <div className="w-full lg:w-8/12">
                     <div className="flex items-center justify-between">
                       <h1 className="text-xl ml-2 font-bold text-gray-700 md:text-2xl">
@@ -185,26 +186,16 @@ const DraftPage = ({userEmail, NoUse}) => {
                       </div>
                     </div>
                   </div>
-                  <div className="-mx-8 w-4/12 hidden lg:block">
-                    <div className="px-8">
-                      <h1 className="mb-4 text-xl font-bold text-gray-700">Authors</h1>
-                      <div className="flex flex-col bg-white max-w-sm px-6 py-4 mx-auto rounded-lg shadow-md">
-                        <ul className="-mx-4">
-                          <li className="flex items-center">
-                            {/* <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80" alt="avatar" className="w-10 h-10 object-cover rounded-full mx-4" /> */}
-                            <p>
-                              <span className="text-gray-700 font-bold mx-1">
-                                {annPage.userEmail}
-                              </span>
-                              {/* <span className="text-gray-700 text-sm font-light">
-                                Created 23 Posts
-                              </span> */}
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="mt-10 px-8">
+                  <div className="mx-auto lg:-mx-8 lg:w-4/12 w-full block">
+                    
+                    <Authors 
+                      authors={annPage.authors} 
+                      annPageOwner={annPage.userEmail} 
+                      userEmail={userEmail}
+                      ann_pageId={annPage._id}
+                    />
+
+                    <div className="mt-10 px-0 lg:px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Subscribers</h1>
                       <div className="flex flex-col bg-white px-4 py-6 max-w-sm mx-auto rounded-lg shadow-md">
                         <ul>
@@ -220,7 +211,7 @@ const DraftPage = ({userEmail, NoUse}) => {
                         </ul>
                       </div>
                     </div>
-                    <div className="mt-10 px-8">
+                    <div className="mt-10 px-0 lg:px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">not working Recent Post</h1>
                       <div className="flex flex-col bg-white px-8 py-6 max-w-sm mx-auto rounded-lg shadow-md">
                         <div className="flex justify-center items-center"><a href="#" className="px-2 py-1 bg-gray-600 text-sm text-green-100 rounded hover:bg-gray-500">Laravel</a>
