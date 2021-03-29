@@ -89,7 +89,7 @@ const Page = ({userEmail, page}) => {
               {errors ? 
                 <span className="text-red-600">{errors}</span>
               :
-                <div className="flex justify-between container mx-auto">
+                <div className="lg:flex justify-between container mx-auto">
                   <div className="w-full lg:w-8/12">
                     <div className="flex items-center justify-between">
                       <h1 className="text-xl ml-2 font-bold text-gray-700 md:text-2xl">
@@ -115,10 +115,10 @@ const Page = ({userEmail, page}) => {
                         </Link>
                       }
                       
-                      <span className=" text-sm text-gray-500 mx-2">
+                      <div className=" text-sm text-gray-500 mx-2">
                         {annPage.subscribers && annPage.subscribers.length} subscriber
                         {annPage.subscribers && annPage.subscribers.length>1 && 's'}
-                      </span>
+                      </div>
 
                       {(userEmail && annPage.subscribers) &&
                       (!(annPage.subscribers.includes(userEmail)) ?
@@ -227,7 +227,8 @@ const Page = ({userEmail, page}) => {
                       </div>
                     </div>
                   </div>
-                  <div className="-mx-8 w-4/12 hidden lg:block">
+                  <div className="mx-auto lg:-mx-8 lg:w-4/12 w-full block">
+                  {/* <div className="-mx-8 w-4/12 hidden lg:block"> */}
                     {/* <div className="px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Authors</h1>
                       <div className="flex flex-col bg-white max-w-sm px-6 py-4 mx-auto rounded-lg shadow-md">
@@ -259,7 +260,7 @@ const Page = ({userEmail, page}) => {
                       ann_pageId={annPage._id}
                     />
 
-                    <div className="mt-10 px-8">
+                    <div className="mt-10 px-0 lg:px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Subscribers</h1>
                       <div className="flex flex-col bg-white px-4 py-6 max-w-sm mx-auto rounded-lg shadow-md">
                         <ul>
@@ -278,7 +279,7 @@ const Page = ({userEmail, page}) => {
                         </ul>
                       </div>
                     </div>
-                    <div className="mt-10 px-8">
+                    <div className="mt-10 px-0 lg:px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">not working Recent Post</h1>
                       <div className="flex flex-col bg-white px-8 py-6 max-w-sm mx-auto rounded-lg shadow-md">
                         <div className="flex justify-center items-center"><a href="#" className="px-2 py-1 bg-gray-600 text-sm text-green-100 rounded hover:bg-gray-500">Laravel</a>
@@ -291,6 +292,7 @@ const Page = ({userEmail, page}) => {
                       </div>
                     </div>
                   </div>
+                  
                 </div>
               }
               </div>

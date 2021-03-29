@@ -40,7 +40,7 @@ const Authors = ({authors, annPageOwner, userEmail, ann_pageId}) => {
 
   return(
     <>
-      <div className="px-8">
+      <div className="px-0 lg:px-8">
         <h1 className="mb-4 text-xl font-bold text-gray-700">Authors</h1>
         <div className="flex flex-col bg-white max-w-sm px-6 pt-2 pb-4 mx-auto rounded-lg shadow-md">
 
