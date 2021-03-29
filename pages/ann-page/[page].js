@@ -5,7 +5,7 @@ import useRequest from '../../hooks/use-request';
 import {Router, useRouter} from "next/router";
 import draftToHtml from 'draftjs-to-html';
 import {annURL} from '../../static/dist/static';
-import Subscribers from '../../components/subscribers';
+import Authors from '../../components/authors';
 
 const Page = ({userEmail, page}) => {
 
@@ -24,7 +24,7 @@ const Page = ({userEmail, page}) => {
       // url: `${annURL}/ann_pages/` + router.asPath.slice(10,),
       method: 'post',
       onSuccess: async(data) => {
-        // console.log(data);
+        console.log(data);
         setAnnPage(data[0]);
       }
     });
@@ -251,7 +251,14 @@ const Page = ({userEmail, page}) => {
                         </ul>
                       </div>
                     </div> */}
-                    <Subscribers authors={annPage.authors} userEmail={annPage.userEmail} />
+
+                    <Authors 
+                      authors={annPage.authors} 
+                      annPageOwner={annPage.userEmail} 
+                      userEmail={userEmail}
+                      ann_pageId={annPage._id}
+                    />
+
                     <div className="mt-10 px-8">
                       <h1 className="mb-4 text-xl font-bold text-gray-700">Subscribers</h1>
                       <div className="flex flex-col bg-white px-4 py-6 max-w-sm mx-auto rounded-lg shadow-md">
